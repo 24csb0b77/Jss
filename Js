@@ -1,0 +1,45 @@
+// Get display input field
+let display = document.getElementById("display");
+
+// Function to append values to the display
+function appendValue(value) {
+    display.value += value;
+}
+
+// Function to clear the display
+function clearDisplay() {
+    display.value = "";
+}
+
+// Function to remove the last character
+function backspace() {
+    display.value = display.value.slice(0, -1);
+}
+
+// Function to calculate the result safely
+function calculateResult() {
+    try {
+        if (display.value.trim() === "") {
+            display.value = "0";
+        } else {
+            display.value = eval(display.value); // Evaluates the mathematical expression
+        }
+    } catch {
+        display.value = "Error"; // Shows error for invalid expressions
+    }
+}
+
+// Keyboard support
+document.addEventListener("keydown", function (event) {
+    let key = event.key;
+
+    if (!isNaN(key) || "+-*/.".includes(key)) {
+        appendValue(key); // Allows numbers and operators
+    } else if (key === "Enter") {
+        calculateResult(); // Calculates result on Enter key press
+    } else if (key === "Backspace") {
+        backspace(); // Handles backspace key
+    } else if (key === "Escape") {
+        clearDisplay(); // Clears display on Escape key press
+    }
+});
